@@ -247,3 +247,5 @@ _Pvt_Extensions
 /tools/ConsoleRunner/Properties/launchSettings.json
 
 /docs/doxygen
+
+/src/Benchmarks/BenchmarkDotNet.artifacts/
