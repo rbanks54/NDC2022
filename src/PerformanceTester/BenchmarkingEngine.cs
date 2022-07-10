@@ -7,6 +7,7 @@ using System.Text;
 using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 using UglyToad.PdfPig.Core;
+using UglyToad.PdfPig.Util;
 using UglyToad.PdfPig.Writer;
 
 namespace PerformanceTester
@@ -28,27 +29,31 @@ namespace PerformanceTester
 
             //for (int i = 0; i < 10; i++)
             //{
-                foreach (var file in files)
+            foreach (var file in files)
+            {
+                using (PdfDocument document = PdfDocument.Open(file))
                 {
-                    using (PdfDocument document = PdfDocument.Open(file))
+                    int pageCount = document.NumberOfPages;
+
+                    Page page = document.GetPage(1);
+
+                    var extractor = DefaultWordExtractor_v2.Instance;
+                    extractor.GetWords(page.Letters).Count();
+
+
+                    var widthInPoints = page.Width;
+                    var heightInPoints = page.Height;
+
+                    int wordCount = 0;
+                    for (var p = 0; p < document.NumberOfPages; p++)
                     {
-                        int pageCount = document.NumberOfPages;
+                        // This starts at 1 rather than 0.
+                        page = document.GetPage(p + 1);
 
-                        Page page = document.GetPage(1);
-
-                        var widthInPoints = page.Width;
-                        var heightInPoints = page.Height;
-
-                        int wordCount = 0;
-                        for (var p = 0; p < document.NumberOfPages; p++)
-                        {
-                            // This starts at 1 rather than 0.
-                            page = document.GetPage(p + 1);
-
-                            wordCount += page.GetWords().Count();
-                        }
+                        wordCount += page.GetWords().Count();
                     }
                 }
+            }
             //}
 
             timer.Stop();
