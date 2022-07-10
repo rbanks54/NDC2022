@@ -1,19 +1,30 @@
-namespace Benchmarks {
+namespace Benchmarks
+{
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Engines;
     using UglyToad.PdfPig;
     using UglyToad.PdfPig.Content;
     using UglyToad.PdfPig.IO;
     using UglyToad.PdfPig.Tokenization;
-    public class GetPage {
+    using UglyToad.PdfPig.Util;
+
+    public class WordExtractor
+    {
 
         private PdfDocument theIliad;
+        IReadOnlyList<Letter> letters;
+        IWordExtractor wordExtractor;
+        Consumer c = new Consumer();
 
         [GlobalSetup]
-        public void Setup() {
-           theIliad = PdfDocument.Open(@"C:\src\old_pdfpig\pdfs\homers illiad.pdf");
+        public void Setup()
+        {
+            theIliad = PdfDocument.Open(@"C:\src\old_pdfpig\pdfs\homers illiad.pdf");
+            letters = theIliad.GetPage(13).Letters;
+            wordExtractor = DefaultWordExtractor.Instance;
         }
 
         [GlobalCleanup]
@@ -22,13 +33,10 @@ namespace Benchmarks {
             theIliad.Dispose();
         }
 
-        [Params(1,20,50)]
-        public int PageNumber { get; set; }
-
         [Benchmark(Baseline = true)]
-        public Page GetPage_Baseline()
+        public void GetPage_Baseline()
         {
-            return theIliad.GetPage(PageNumber);
+            wordExtractor.GetWords(letters).Consume(c);
         }
 
         //30% slower. Yikes!!
