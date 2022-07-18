@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerformanceTester", "PerformanceTester\PerformanceTester.csproj", "{E52544BD-D4C4-4D7A-A6AB-9D72DFD2F4C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{7D35421A-3340-46E8-B92B-AABA523458E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{E52544BD-D4C4-4D7A-A6AB-9D72DFD2F4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E52544BD-D4C4-4D7A-A6AB-9D72DFD2F4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E52544BD-D4C4-4D7A-A6AB-9D72DFD2F4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D35421A-3340-46E8-B92B-AABA523458E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D35421A-3340-46E8-B92B-AABA523458E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D35421A-3340-46E8-B92B-AABA523458E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D35421A-3340-46E8-B92B-AABA523458E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
