@@ -4,7 +4,6 @@ using UglyToad.PdfPig.Content;
 
 namespace Benchmarks;
 
-[MemoryDiagnoser]
 public class GetPage
 {
     private PdfDocument? theIliad;
@@ -21,7 +20,8 @@ public class GetPage
         theIliad?.Dispose();
     }
 
-    [Params(1, 20, 50)]
+    //[Params(1, 20, 50)]
+    [Params(50)]
     public int PageNumber { get; set; }
 
     [Benchmark(Baseline = true)]
