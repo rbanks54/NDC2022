@@ -13,13 +13,13 @@
         /// <summary>
         /// Length of the line.
         /// </summary>
-        public decimal Length
+        public double Length
         {
             get
             {
                 var l = (Point1.X - Point2.X) * (Point1.X - Point2.X) + 
                     (Point1.Y - Point2.Y) * (Point1.Y - Point2.Y);
-                return (decimal)System.Math.Sqrt((double)l);
+                return System.Math.Sqrt(l);
             }
         }
 
@@ -40,7 +40,7 @@
         /// <param name="y1">The y coordinate of the first point on the line.</param>
         /// <param name="x2">The x coordinate of the second point on the line.</param>
         /// <param name="y2">The y coordinate of the second point on the line.</param>
-        public PdfLine(decimal x1, decimal y1, decimal x2, decimal y2) : this(new PdfPoint(x1, y1), new PdfPoint(x2, y2)) { }
+        public PdfLine(double x1, double y1, double x2, double y2) : this(new PdfPoint(x1, y1), new PdfPoint(x2, y2)) { }
 
         /// <summary>
         /// Create a new <see cref="PdfLine"/>.

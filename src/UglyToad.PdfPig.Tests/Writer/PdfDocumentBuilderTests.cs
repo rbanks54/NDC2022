@@ -255,7 +255,7 @@
             var right = page2Letters[page2Letters.Count - 1].GlyphRectangle.Right;
             var top = page2Letters.Max(x => x.GlyphRectangle.Top);
             page2.SetStrokeColor(10, 250, 69);
-            page2.DrawRectangle(new PdfPoint(left, bottom), right - left, top - bottom);
+            page2.DrawRectangle(new PdfPoint(left, bottom), (decimal)(right - left), (decimal)(top - bottom));
 
             var bytes = builder.Build();
             WriteFile(nameof(CanWriteTwoPageDocument), bytes);

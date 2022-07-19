@@ -9,7 +9,7 @@
     /// </summary>
     internal class CharStringStack
     {
-        private readonly List<decimal> stack = new List<decimal>();
+        private readonly List<double> stack = new List<double>();
 
         /// <summary>
         /// The current size of the stack.
@@ -25,7 +25,7 @@
         /// Remove and return the value from the top of the stack.
         /// </summary>
         /// <returns>The value from the top of the stack.</returns>
-        public decimal PopTop()
+        public double PopTop()
         {
             if (stack.Count == 0)
             {
@@ -41,7 +41,7 @@
         /// Remove and return the value from the bottom of the stack.
         /// </summary>
         /// <returns>The value from the bottom of the stack.</returns>
-        public decimal PopBottom()
+        public double PopBottom()
         {
             if (stack.Count == 0)
             {
@@ -57,12 +57,12 @@
         /// Adds the value to the top of the stack.
         /// </summary>
         /// <param name="value">The value to add.</param>
-        public void Push(decimal value)
+        public void Push(double value)
         {
             stack.Add(value);
         }
 
-        public decimal CopyElementAt(int index)
+        public double CopyElementAt(int index)
         {
             if (index < 0)
             {

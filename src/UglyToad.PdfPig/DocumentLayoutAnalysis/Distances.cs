@@ -31,8 +31,8 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// <param name="wY">The weight of the Y coordinates. Default is 1.</param>
         public static double WeightedEuclidean(PdfPoint point1, PdfPoint point2, double wX = 1.0, double wY = 1.0)
         {
-            double dx = (double)(point1.X - point2.X);
-            double dy = (double)(point1.Y - point2.Y);
+            double dx = point1.X - point2.X;
+            double dy = point1.Y - point2.Y;
             return Math.Sqrt(wX * dx * dx + wY * dy * dy);
         }
 
@@ -44,7 +44,7 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// <param name="point2">The second point.</param>
         public static double Manhattan(PdfPoint point1, PdfPoint point2)
         {
-            return (double)(Math.Abs(point1.X - point2.X) + Math.Abs(point1.Y - point2.Y));
+            return Math.Abs(point1.X - point2.X) + Math.Abs(point1.Y - point2.Y);
         }
 
         /// <summary>

@@ -8,24 +8,24 @@
         [Fact]
         public void ConstructorSetsValues()
         {
-            var vector = new PdfVector(5.2m, 6.9m);
+            var vector = new PdfVector(5.2, 6.9);
 
-            Assert.Equal(5.2m, vector.X);
-            Assert.Equal(6.9m, vector.Y);
+            Assert.Equal(5.2, vector.X);
+            Assert.Equal(6.9, vector.Y);
         }
 
         [Fact]
         public void ScaleMultipliesLeavesOriginalUnchanged()
         {
-            var vector = new PdfVector(5.2m, 6.9m);
+            var vector = new PdfVector(5.2, 6.9);
 
-            var scaled = vector.Scale(0.7m);
+            var scaled = vector.Scale(0.7);
 
-            Assert.Equal(5.2m, vector.X);
-            Assert.Equal(5.2m * 0.7m, scaled.X);
+            Assert.Equal(5.2, vector.X);
+            Assert.Equal(5.2 * 0.7, scaled.X);
 
-            Assert.Equal(6.9m, vector.Y);
-            Assert.Equal(6.9m * 0.7m, scaled.Y);
+            Assert.Equal(6.9, vector.Y);
+            Assert.Equal(6.9 * 0.7, scaled.Y);
         }
     }
 }

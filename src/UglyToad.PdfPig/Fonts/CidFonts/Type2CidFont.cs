@@ -14,7 +14,7 @@
     {
         private readonly ICidFontProgram fontProgram;
         private readonly VerticalWritingMetrics verticalWritingMetrics;
-        private readonly IReadOnlyDictionary<int, decimal> widths;
+        private readonly IReadOnlyDictionary<int, double> widths;
         private readonly CharacterIdentifierToGlyphIndexMap cidToGid;
 
         public NameToken Type { get; }
@@ -28,7 +28,7 @@
         public Type2CidFont(NameToken type, NameToken subType, NameToken baseFont, CharacterIdentifierSystemInfo systemInfo,
             FontDescriptor descriptor, ICidFontProgram fontProgram,
             VerticalWritingMetrics verticalWritingMetrics,
-            IReadOnlyDictionary<int, decimal> widths, 
+            IReadOnlyDictionary<int, double> widths, 
             CharacterIdentifierToGlyphIndexMap cidToGid)
         {
             Type = type;
@@ -42,11 +42,11 @@
             this.cidToGid = cidToGid;
 
             // TODO: This should maybe take units per em into account?
-            var scale = 1 / (decimal)(fontProgram?.GetFontMatrixMultiplier() ?? 1000);
+            var scale = 1d / (fontProgram?.GetFontMatrixMultiplier() ?? 1000);
             FontMatrix = TransformationMatrix.FromValues(scale, 0, 0, scale, 0, 0);
         }
 
-        public decimal GetWidthFromFont(int characterIdentifier)
+        public double GetWidthFromFont(int characterIdentifier)
         {
             if (fontProgram == null)
             {
@@ -61,14 +61,14 @@
             return GetWidthFromDictionary(characterIdentifier);
         }
 
-        public decimal GetWidthFromDictionary(int characterIdentifier)
+        public double GetWidthFromDictionary(int characterIdentifier)
         {
             if (widths.TryGetValue(characterIdentifier, out var width))
             {
                 return width;
             }
 
-            return Descriptor.MissingWidth;
+            return (double)Descriptor.MissingWidth;
         }
 
         public PdfRectangle GetBoundingBox(int characterIdentifier)

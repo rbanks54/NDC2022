@@ -51,15 +51,15 @@
         public void Run(IOperationContext operationContext)
         {
             operationContext.BeginSubpath();
-            operationContext.CurrentPath.Rectangle(LowerLeft.X, LowerLeft.Y, Width, Height);
+            operationContext.CurrentPath.Rectangle(LowerLeft.X, LowerLeft.Y, (double)Width, (double)Height);
         }
 
         /// <inheritdoc />
         public void Write(Stream stream)
         {
-            stream.WriteDecimal(LowerLeft.X);
+            stream.WriteDecimal((decimal)LowerLeft.X);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(LowerLeft.Y);
+            stream.WriteDecimal((decimal)LowerLeft.Y);
             stream.WriteWhiteSpace();
             stream.WriteDecimal(Width);
             stream.WriteWhiteSpace();

@@ -23,7 +23,7 @@
 
             foreach (var command in subroutine.Commands)
             {
-                command.Match(x => context.Stack.Push(x),
+                command.Match(x => context.Stack.Push((double)x),
                     x => x.Run(context));
             }
         }

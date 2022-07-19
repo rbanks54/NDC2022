@@ -18,9 +18,9 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// </summary>
         /// <param name="pageWords">The words in the page.</param>
         /// <param name="minimumWidth">The minimum width for a block.</param>
-        public static XYNode GetBlocks(IEnumerable<Word> pageWords, decimal minimumWidth = 0)
+        public static XYNode GetBlocks(IEnumerable<Word> pageWords, double minimumWidth = 0)
         {
-            return GetBlocks(pageWords, minimumWidth, k => Math.Round(k.Mode(), 3), k => Math.Round(k.Mode() * 1.5m, 3));
+            return GetBlocks(pageWords, minimumWidth, k => Math.Round(k.Mode(), 3), k => Math.Round(k.Mode() * 1.5, 3));
         }
 
         /// <summary>
@@ -30,8 +30,8 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// <param name="minimumWidth">The minimum width for a block.</param>
         /// <param name="dominantFontWidth">The dominant font width.</param>
         /// <param name="dominantFontHeight">The dominant font height.</param>
-        public static XYNode GetBlocks(IEnumerable<Word> pageWords, decimal minimumWidth,
-            decimal dominantFontWidth, decimal dominantFontHeight)
+        public static XYNode GetBlocks(IEnumerable<Word> pageWords, double minimumWidth,
+            double dominantFontWidth, double dominantFontHeight)
         {
             return GetBlocks(pageWords, minimumWidth, k => dominantFontWidth, k => dominantFontHeight);
         }
@@ -43,17 +43,17 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// <param name="minimumWidth">The minimum width for a block.</param>
         /// <param name="dominantFontWidthFunc">The function that determines the dominant font width.</param>
         /// <param name="dominantFontHeightFunc">The function that determines the dominant font height.</param>
-        public static XYNode GetBlocks(IEnumerable<Word> pageWords, decimal minimumWidth,
-            Func<IEnumerable<decimal>, decimal> dominantFontWidthFunc,
-            Func<IEnumerable<decimal>, decimal> dominantFontHeightFunc)
+        public static XYNode GetBlocks(IEnumerable<Word> pageWords, double minimumWidth,
+            Func<IEnumerable<double>, double> dominantFontWidthFunc,
+            Func<IEnumerable<double>, double> dominantFontHeightFunc)
         {
             var root = new XYLeaf(pageWords); // Create a root node.
             return VerticalCut(root, minimumWidth, dominantFontWidthFunc, dominantFontHeightFunc);
         }
 
-        private static XYNode VerticalCut(XYLeaf leaf, decimal minimumWidth,
-            Func<IEnumerable<decimal>, decimal> dominantFontWidthFunc,
-            Func<IEnumerable<decimal>, decimal> dominantFontHeightFunc, int level = 0)
+        private static XYNode VerticalCut(XYLeaf leaf, double minimumWidth,
+            Func<IEnumerable<double>, double> dominantFontWidthFunc,
+            Func<IEnumerable<double>, double> dominantFontHeightFunc, int level = 0)
         {
             if (leaf.CountWords() <= 1 || leaf.BoundingBox.Width <= minimumWidth)
             {
@@ -67,13 +67,13 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
             var words = leaf.Words.Where(w => !string.IsNullOrWhiteSpace(w.Text)).OrderBy(w => w.BoundingBox.Left).ToArray();
 
             // determine dominantFontWidth and dominantFontHeight
-            decimal domFontWidth = dominantFontWidthFunc(words.SelectMany(x => x.Letters)
+            double domFontWidth = dominantFontWidthFunc(words.SelectMany(x => x.Letters)
                 .Select(x => Math.Abs(x.GlyphRectangle.Width)));
-            decimal domFontHeight = dominantFontHeightFunc(words.SelectMany(x => x.Letters)
+            double domFontHeight = dominantFontHeightFunc(words.SelectMany(x => x.Letters)
                 .Select(x => Math.Abs(x.GlyphRectangle.Height)));
 
-            List<decimal[]> projectionProfile = new List<decimal[]>();
-            decimal[] currentProj = new decimal[2] { words[0].BoundingBox.Left, words[0].BoundingBox.Right };
+            List<double[]> projectionProfile = new List<double[]>();
+            double[] currentProj = new double[2] { words[0].BoundingBox.Left, words[0].BoundingBox.Right };
             int wordsCount = words.Count();
             for (int i = 1; i < wordsCount; i++)
             {
@@ -122,7 +122,7 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
                         if (i != wordsCount - 1) // will always add the last one after
                         {
                             projectionProfile.Add(currentProj);
-                            currentProj = new decimal[2] { words[i].BoundingBox.Left, words[i].BoundingBox.Right };
+                            currentProj = new double[2] { words[i].BoundingBox.Left, words[i].BoundingBox.Right };
                         }
                     }
                 }
@@ -144,9 +144,9 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
             return new XYNode(newNodes);
         }
 
-        private static XYNode HorizontalCut(XYLeaf leaf, decimal minimumWidth,
-            Func<IEnumerable<decimal>, decimal> dominantFontWidthFunc,
-            Func<IEnumerable<decimal>, decimal> dominantFontHeightFunc, int level = 0)
+        private static XYNode HorizontalCut(XYLeaf leaf, double minimumWidth,
+            Func<IEnumerable<double>, double> dominantFontWidthFunc,
+            Func<IEnumerable<double>, double> dominantFontHeightFunc, int level = 0)
         {
             if (leaf.CountWords() <= 1)
             {
@@ -158,13 +158,13 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
             var words = leaf.Words.Where(w => !string.IsNullOrWhiteSpace(w.Text)).OrderBy(w => w.BoundingBox.Bottom).ToArray(); // order bottom to top
 
             // determine dominantFontWidth and dominantFontHeight
-            decimal domFontWidth = dominantFontWidthFunc(words.SelectMany(x => x.Letters)
+            double domFontWidth = dominantFontWidthFunc(words.SelectMany(x => x.Letters)
                 .Select(x => Math.Abs(x.GlyphRectangle.Width)));
-            decimal domFontHeight = dominantFontHeightFunc(words.SelectMany(x => x.Letters)
+            double domFontHeight = dominantFontHeightFunc(words.SelectMany(x => x.Letters)
                 .Select(x => Math.Abs(x.GlyphRectangle.Height)));
 
-            List<decimal[]> projectionProfile = new List<decimal[]>();
-            decimal[] currentProj = new decimal[2] { words[0].BoundingBox.Bottom, words[0].BoundingBox.Top };
+            List<double[]> projectionProfile = new List<double[]>();
+            double[] currentProj = new double[2] { words[0].BoundingBox.Bottom, words[0].BoundingBox.Top };
             int wordsCount = words.Count();
             for (int i = 1; i < wordsCount; i++)
             {
@@ -195,7 +195,7 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
                         if (i != wordsCount - 1) // will always add the last one after
                         {
                             projectionProfile.Add(currentProj);
-                            currentProj = new decimal[2] { words[i].BoundingBox.Bottom, words[i].BoundingBox.Top };
+                            currentProj = new double[2] { words[i].BoundingBox.Bottom, words[i].BoundingBox.Top };
                         }
                     }
                 }

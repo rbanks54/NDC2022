@@ -122,7 +122,7 @@
             }
 
             var fontSize = currentState.FontState.FontSize;
-            var horizontalScaling = currentState.FontState.HorizontalScaling / 100m;
+            var horizontalScaling = currentState.FontState.HorizontalScaling / 100d;
             var characterSpacing = currentState.FontState.CharacterSpacing;
             var rise = currentState.FontState.Rise;
 
@@ -133,7 +133,7 @@
 
             // TODO: this does not seem correct, produces the correct result for now but we need to revisit.
             // see: https://stackoverflow.com/questions/48010235/pdf-specification-get-font-size-in-points
-            var pointSize = decimal.Round(rotation.Rotate(transformationMatrix).Multiply(TextMatrices.TextMatrix).Multiply(fontSize).A, 2);
+            var pointSize = Math.Round(rotation.Rotate(transformationMatrix).Multiply(TextMatrices.TextMatrix).Multiply(fontSize).A, 2);
 
             while (bytes.MoveNext())
             {
@@ -148,7 +148,7 @@
                     unicode = new string((char)code, 1);
                 }
 
-                var wordSpacing = 0m;
+                var wordSpacing = 0d;
                 if (code == ' ' && codeLength == 1)
                 {
                     wordSpacing += GetCurrentState().FontState.WordSpacing;
@@ -171,7 +171,7 @@
 
                 ShowGlyph(font, transformedGlyphBounds, transformedPdfBounds.BottomLeft, transformedPdfBounds.BottomRight, transformedPdfBounds.Width, unicode, fontSize, pointSize);
 
-                decimal tx, ty;
+                double tx, ty;
                 if (font.IsVertical)
                 {
                     tx = 0;
@@ -196,7 +196,7 @@
             var textState = currentState.FontState;
 
             var fontSize = textState.FontSize;
-            var horizontalScaling = textState.HorizontalScaling / 100m;
+            var horizontalScaling = textState.HorizontalScaling / 100d;
             var font = resourceStore.GetFont(textState.FontName);
 
             var isVertical = font.IsVertical;
@@ -205,9 +205,9 @@
             {
                 if (token is NumericToken number)
                 {
-                    var positionAdjustment = number.Data;
+                    var positionAdjustment = (double)number.Data;
 
-                    decimal tx, ty;
+                    double tx, ty;
                     if (isVertical)
                     {
                         tx = 0;
@@ -322,12 +322,12 @@
                 && fontArray.Data[0] is IndirectReferenceToken fontReference && fontArray.Data[1] is NumericToken sizeToken)
             {
                 currentGraphicsState.FontState.FromExtendedGraphicsState = true;
-                currentGraphicsState.FontState.FontSize = sizeToken.Data;
+                currentGraphicsState.FontState.FontSize = (double)sizeToken.Data;
                 activeExtendedGraphicsStateFont = resourceStore.GetFontDirectly(fontReference, isLenientParsing);
             }
         }
 
-        private void AdjustTextMatrix(decimal tx, decimal ty)
+        private void AdjustTextMatrix(double tx, double ty)
         {
             var matrix = TransformationMatrix.GetTranslationMatrix(tx, ty);
 
@@ -336,7 +336,7 @@
             TextMatrices.TextMatrix = newMatrix;
         }
 
-        private void ShowGlyph(IFont font, PdfRectangle glyphRectangle, PdfPoint startBaseLine, PdfPoint endBaseLine, decimal width, string unicode, decimal fontSize, decimal pointSize)
+        private void ShowGlyph(IFont font, PdfRectangle glyphRectangle, PdfPoint startBaseLine, PdfPoint endBaseLine, double width, string unicode, double fontSize, double pointSize)
         {
             var letter = new Letter(unicode, glyphRectangle, startBaseLine, endBaseLine, width, fontSize, font.Name.Data, pointSize);
 

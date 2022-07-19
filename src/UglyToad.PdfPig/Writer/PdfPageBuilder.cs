@@ -58,8 +58,8 @@
                 operations.Add(new SetLineWidth(lineWidth));
             }
 
-            operations.Add(new BeginNewSubpath(from.X, from.Y));
-            operations.Add(new AppendStraightLineSegment(to.X, to.Y));
+            operations.Add(new BeginNewSubpath((decimal)from.X, (decimal)from.Y));
+            operations.Add(new AppendStraightLineSegment((decimal)to.X, (decimal)to.Y));
             operations.Add(StrokePath.Value);
 
             if (lineWidth != 1)
@@ -82,7 +82,7 @@
                 operations.Add(new SetLineWidth(lineWidth));
             }
 
-            operations.Add(new AppendRectangle(position.X, position.Y, width, height));
+            operations.Add(new AppendRectangle((decimal)position.X, (decimal)position.Y, width, height));
             operations.Add(StrokePath.Value);
 
             if (lineWidth != 1)
@@ -221,7 +221,7 @@
 
             operations.Add(BeginText.Value);
             operations.Add(new SetFontAndSize(font.Name, fontSize));
-            operations.Add(new MoveToNextLineWithOffset(position.X, position.Y));
+            operations.Add(new MoveToNextLineWithOffset((decimal)position.X, (decimal)position.Y));
             operations.Add(new ShowText(text));
             operations.Add(EndText.Value);
 
@@ -235,9 +235,9 @@
             var letters = new List<Letter>();
 
             var renderingMatrix =
-                TransformationMatrix.FromValues(fontSize * horizontalScaling, 0, 0, fontSize, 0, rise);
+                TransformationMatrix.FromValues((double)fontSize * horizontalScaling, 0, 0, (double)fontSize, 0, rise);
 
-            var width = 0m;
+            var width = 0d;
 
             for (var i = 0; i < text.Length; i++)
             {
@@ -258,7 +258,7 @@
 
                 var documentSpace = textMatrix.Transform(renderingMatrix.Transform(fontMatrix.Transform(rect)));
 
-                var letter = new Letter(c.ToString(), documentSpace, advanceRect.BottomLeft, advanceRect.BottomRight, width, fontSize, font.Name, fontSize);
+                var letter = new Letter(c.ToString(), documentSpace, advanceRect.BottomLeft, advanceRect.BottomRight, width, (double)fontSize, font.Name, (double)fontSize);
                 letters.Add(letter);
 
                 var tx = advanceRect.Width * horizontalScaling;

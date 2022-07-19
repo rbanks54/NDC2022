@@ -72,7 +72,7 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
         /// <param name="distMeasure">The distance measure between two start and end base line points,
         /// e.g. the Manhattan distance.</param>
         private static List<Word> GetWords(IEnumerable<Letter> pageLetters,
-            Func<Letter, decimal> metric, Func<PdfPoint, PdfPoint, double> distMeasure)
+            Func<Letter, double> metric, Func<PdfPoint, PdfPoint, double> distMeasure)
         {
             if (pageLetters == null || pageLetters.Count() == 0) return new List<Word>();
             TextDirection textDirection = pageLetters.ElementAt(0).TextDirection;
@@ -115,8 +115,8 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
                     if (!string.IsNullOrWhiteSpace(pairedLetter.Value) &&
                         string.Equals(currentLetter.FontName, pairedLetter.FontName, StringComparison.OrdinalIgnoreCase))
                     {
-                        decimal minDist = Math.Max(Math.Abs(metric(currentLetter)), Math.Abs(metric(pairedLetter))) * 0.60m;
-                        if ((decimal)dist < minDist)
+                        double minDist = Math.Max(Math.Abs(metric(currentLetter)), Math.Abs(metric(pairedLetter))) * 0.60;
+                        if (dist < minDist)
                         {
                             indexes[c] = index;
                         }

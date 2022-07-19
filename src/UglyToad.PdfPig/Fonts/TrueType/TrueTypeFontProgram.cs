@@ -55,10 +55,10 @@
             return true;
         }
 
-        public bool TryGetBoundingAdvancedWidth(int characterIdentifier, out decimal width) => TryGetBoundingAdvancedWidth(characterIdentifier, null, out width);
-        public bool TryGetBoundingAdvancedWidth(int characterIdentifier, Func<int, int> characterIdentifierToGlyphIndex, out decimal width)
+        public bool TryGetBoundingAdvancedWidth(int characterIdentifier, out double width) => TryGetBoundingAdvancedWidth(characterIdentifier, null, out width);
+        public bool TryGetBoundingAdvancedWidth(int characterIdentifier, Func<int, int> characterIdentifierToGlyphIndex, out double width)
         {
-            width = 0m;
+            width = 0;
 
             if (!TryGetGlyphIndex(characterIdentifier, characterIdentifierToGlyphIndex, out var index))
             {
@@ -73,7 +73,7 @@
             return TableRegister.HeaderTable.UnitsPerEm;
         }
 
-        private bool TryGetBoundingAdvancedWidthByIndex(int index, out decimal width)
+        private bool TryGetBoundingAdvancedWidthByIndex(int index, out double width)
         {
             width = TableRegister.HorizontalMetricsTable.GetAdvanceWidth(index);
 

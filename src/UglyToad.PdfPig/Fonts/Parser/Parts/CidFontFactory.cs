@@ -151,9 +151,9 @@
             }
         }
 
-        private IReadOnlyDictionary<int, decimal> ReadWidths(DictionaryToken dict)
+        private IReadOnlyDictionary<int, double> ReadWidths(DictionaryToken dict)
         {
-            var widths = new Dictionary<int, decimal>();
+            var widths = new Dictionary<int, double>();
 
             if (!dict.TryGet(NameToken.W, out var widthsItem) || !(widthsItem is ArrayToken widthArray))
             {
@@ -174,7 +174,7 @@
                     for (int i = 0; i < arraySize; i++)
                     {
                         var width = (NumericToken)array.Data[i];
-                        widths[startRange + i] = width.Data;
+                        widths[startRange + i] = width.Double;
                     }
                 }
                 else
@@ -186,7 +186,7 @@
                     var width = rangeWidth.Data;
                     for (var i = startRange; i <= endRange; i++)
                     {
-                        widths[i] = width;
+                        widths[i] = (double)width;
                     }
                 }
             }
@@ -231,7 +231,7 @@
 
                             verticalDisplacements[cid] = w1y.Data;
 
-                            positionVectors[cid] = new PdfVector(v1x.Data, v1y.Data);
+                            positionVectors[cid] = new PdfVector(v1x.Double, v1y.Double);
                         }
                     }
                     else
@@ -246,7 +246,7 @@
                         {
                             verticalDisplacements[cid] = w1y.Data;
 
-                            positionVectors[cid] = new PdfVector(v1x.Data, v1y.Data);
+                            positionVectors[cid] = new PdfVector(v1x.Double, v1y.Double);
                         }
                     }
                 }

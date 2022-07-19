@@ -56,13 +56,13 @@
         /// <inheritdoc />
         public void Write(Stream stream)
         {
-            stream.WriteDecimal(ControlPoint2.X);
+            stream.WriteDecimal((decimal)ControlPoint2.X);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(ControlPoint2.Y);
+            stream.WriteDecimal((decimal)ControlPoint2.Y);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(End.X);
+            stream.WriteDecimal((decimal)End.X);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(End.Y);
+            stream.WriteDecimal((decimal)End.Y);
             stream.WriteWhiteSpace();
             stream.WriteText(Symbol);
             stream.WriteNewLine();

@@ -32,13 +32,13 @@ namespace UglyToad.PdfPig.Geometry
             currentTransformationMatrix = transformationMatrix;
         }
 
-        internal void MoveTo(decimal x, decimal y)
+        internal void MoveTo(double x, double y)
         {
             currentPosition = currentTransformationMatrix.Transform(new PdfPoint(x, y));
             commands.Add(new Move(currentPosition.Value));
         }
 
-        internal void LineTo(decimal x, decimal y)
+        internal void LineTo(double x, double y)
         {
             if (currentPosition.HasValue)
             {
@@ -52,9 +52,9 @@ namespace UglyToad.PdfPig.Geometry
             }
         }
 
-        internal void QuadraticCurveTo(decimal x1, decimal y1, decimal x2, decimal y2) { }
+        internal void QuadraticCurveTo(double x1, double y1, double x2, double y2) { }
 
-        internal void BezierCurveTo(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
+        internal void BezierCurveTo(double x1, double y1, double x2, double y2, double x3, double y3)
         {
             if (currentPosition.HasValue)
             {
@@ -83,11 +83,11 @@ namespace UglyToad.PdfPig.Geometry
                 return null;
             }
 
-            var minX = decimal.MaxValue;
-            var maxX = decimal.MinValue;
+            var minX = double.MaxValue;
+            var maxX = double.MinValue;
 
-            var minY = decimal.MaxValue;
-            var maxY = decimal.MinValue;
+            var minY = double.MaxValue;
+            var maxY = double.MinValue;
 
             foreach (var command in commands)
             {
@@ -321,26 +321,26 @@ namespace UglyToad.PdfPig.Geometry
                 double maxX;
                 if (StartPoint.X <= EndPoint.X)
                 {
-                    minX = (double)StartPoint.X;
-                    maxX = (double)EndPoint.X;
+                    minX = StartPoint.X;
+                    maxX = EndPoint.X;
                 }
                 else
                 {
-                    minX = (double)EndPoint.X;
-                    maxX = (double)StartPoint.X;
+                    minX = EndPoint.X;
+                    maxX = StartPoint.X;
                 }
 
                 double minY;
                 double maxY;
                 if (StartPoint.Y <= EndPoint.Y)
                 {
-                    minY = (double)StartPoint.Y;
-                    maxY = (double)EndPoint.Y;
+                    minY = StartPoint.Y;
+                    maxY = EndPoint.Y;
                 }
                 else
                 {
-                    minY = (double)EndPoint.Y;
-                    maxY = (double)StartPoint.Y;
+                    minY = EndPoint.Y;
+                    maxY = StartPoint.Y;
                 }
 
                 if (TrySolveQuadratic(true, minX, maxX, out var xSolutions))
@@ -355,7 +355,7 @@ namespace UglyToad.PdfPig.Geometry
                     maxY = ySolutions.max;
                 }
 
-                return new PdfRectangle((decimal)minX, (decimal)minY, (decimal)maxX, (decimal)maxY);
+                return new PdfRectangle(minX, minY, maxX, maxY);
             }
 
             /// <inheritdoc />
@@ -383,10 +383,10 @@ namespace UglyToad.PdfPig.Geometry
                 // P' = 3da(1-t)^2 + 6db(1-t)t + 3dct^2
                 // P' = 3da - 3dat - 3dat + 3dat^2 + 6dbt - 6dbt^2 + 3dct^2
                 // P' = (3da - 6db + 3dc)t^2 + (6db - 3da - 3da)t + 3da
-                var p1 = (double)(isX ? StartPoint.X : StartPoint.Y);
-                var p2 = (double)(isX ? FirstControlPoint.X : FirstControlPoint.Y);
-                var p3 = (double)(isX ? SecondControlPoint.X : SecondControlPoint.Y);
-                var p4 = (double)(isX ? EndPoint.X : EndPoint.Y);
+                var p1 = (isX ? StartPoint.X : StartPoint.Y);
+                var p2 = (isX ? FirstControlPoint.X : FirstControlPoint.Y);
+                var p3 = (isX ? SecondControlPoint.X : SecondControlPoint.Y);
+                var p4 = (isX ? EndPoint.X : EndPoint.Y);
 
                 var threeda = 3 * (p2 - p1);
                 var sixdb = 6 * (p3 - p2);
@@ -458,7 +458,7 @@ namespace UglyToad.PdfPig.Geometry
             }
         }
 
-        internal void Rectangle(decimal x, decimal y, decimal width, decimal height)
+        internal void Rectangle(double x, double y, double width, double height)
         {
             currentPosition = currentTransformationMatrix.Transform(new PdfPoint(x, y));
             LineTo(x + width, y);

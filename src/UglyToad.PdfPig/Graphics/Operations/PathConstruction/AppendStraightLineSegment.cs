@@ -42,9 +42,9 @@
         /// <inheritdoc />
         public void Write(Stream stream)
         {
-            stream.WriteDecimal(End.X);
+            stream.WriteDecimal((decimal)End.X);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(End.Y);
+            stream.WriteDecimal((decimal)End.Y);
             stream.WriteWhiteSpace();
             stream.WriteText(Symbol);
             stream.WriteWhiteSpace();

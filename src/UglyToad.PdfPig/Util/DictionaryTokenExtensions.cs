@@ -136,10 +136,10 @@
                 throw new PdfDocumentFormatException($"Cannot convert array to rectangle, expected 4 values instead got: {array}.");
             }
 
-            return new PdfRectangle(array.GetNumeric(0).Data,
-                array.GetNumeric(1).Data,
-                array.GetNumeric(2).Data,
-                array.GetNumeric(3).Data);
+            return new PdfRectangle((double)array.GetNumeric(0).Data,
+                (double)array.GetNumeric(1).Data,
+                (double)array.GetNumeric(2).Data,
+                (double)array.GetNumeric(3).Data);
         }
 
         public static PdfRectangle ToIntRectangle(this ArrayToken array)

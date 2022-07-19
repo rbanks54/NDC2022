@@ -13,7 +13,7 @@
     internal class TrueTypeStandard14FallbackSimpleFont : IFont
     {
         private static readonly TransformationMatrix DefaultTransformation =
-            TransformationMatrix.FromValues(1m / 1000m, 0, 0, 1m / 1000m, 0, 0);
+            TransformationMatrix.FromValues(1d / 1000, 0, 0, 1d / 1000, 0, 0);
 
         private readonly FontMetrics fontMetrics;
         private readonly Encoding encoding;
@@ -81,7 +81,7 @@
         {
             if (font?.TableRegister.HeaderTable != null)
             {
-                var scale = (decimal)font.GetFontMatrixMultiplier();
+                var scale = font.GetFontMatrixMultiplier();
 
                 return TransformationMatrix.FromValues(1 / scale, 0, 0, 1 / scale, 0, 0);
             }

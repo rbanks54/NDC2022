@@ -397,7 +397,7 @@
                     var x2 = (NumericToken)array.Data[2];
                     var y2 = (NumericToken)array.Data[3];
 
-                    return new PdfRectangle(x1.Data, y1.Data, x2.Data, y2.Data);
+                    return new PdfRectangle((double)x1.Data, (double)y1.Data, (double)x2.Data, (double)y2.Data);
                 }
             }
 

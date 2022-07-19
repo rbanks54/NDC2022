@@ -63,11 +63,11 @@ namespace UglyToad.PdfPig.DocumentLayoutAnalysis
                 throw new ArgumentException("XYLeaf(): The words contained in the leaf cannot be null.", "words");
             }
 
-            decimal left = words.Min(b => b.BoundingBox.Left);
-            decimal right = words.Max(b => b.BoundingBox.Right);
+            double left = words.Min(b => b.BoundingBox.Left);
+            double right = words.Max(b => b.BoundingBox.Right);
 
-            decimal bottom = words.Min(b => b.BoundingBox.Bottom);
-            decimal top = words.Max(b => b.BoundingBox.Top);
+            double bottom = words.Min(b => b.BoundingBox.Bottom);
+            double top = words.Max(b => b.BoundingBox.Top);
 
             BoundingBox = new PdfRectangle(left, bottom, right, top);
             Words = words.ToArray();

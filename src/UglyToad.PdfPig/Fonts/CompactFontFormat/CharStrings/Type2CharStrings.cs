@@ -148,9 +148,9 @@
             /// <summary>
             /// The ordered list of numbers and commands for a Type 2 charstring or subroutine.
             /// </summary>
-            public IReadOnlyList<Union<decimal, LazyType2Command>> Commands { get; }
+            public IReadOnlyList<Union<double, LazyType2Command>> Commands { get; }
 
-            public CommandSequence(IReadOnlyList<Union<decimal, LazyType2Command>> commands)
+            public CommandSequence(IReadOnlyList<Union<double, LazyType2Command>> commands)
             {
                 Commands = commands ?? throw new ArgumentNullException(nameof(commands));
             }
@@ -177,18 +177,18 @@
         /// <summary>
         /// The width of the glyph as a difference from the nominal width X for the font. Optional.
         /// </summary>
-        public decimal? WidthDifferenceFromNominal { get; }
+        public double? WidthDifferenceFromNominal { get; }
 
         /// <summary>
         /// Create a new <see cref="Type2Glyph"/>.
         /// </summary>
-        public Type2Glyph(PdfPath path, decimal? widthDifferenceFromNominal)
+        public Type2Glyph(PdfPath path, double? widthDifferenceFromNominal)
         {
             Path = path ?? throw new ArgumentNullException(nameof(path));
             WidthDifferenceFromNominal = widthDifferenceFromNominal;
         }
 
-        public decimal GetWidth(CompactFontFormatPrivateDictionary privateDictionary)
+        public double GetWidth(CompactFontFormatPrivateDictionary privateDictionary)
         {
             if (privateDictionary == null)
             {
@@ -200,7 +200,7 @@
                 return Path.GetBoundingRectangle().GetValueOrDefault().Width;
             }
 
-            return privateDictionary.NominalWidthX + WidthDifferenceFromNominal.Value;
+            return (double)privateDictionary.NominalWidthX + WidthDifferenceFromNominal.Value;
         }
     }
 }

@@ -33,6 +33,8 @@
         /// </summary>
         public long Long { get; }
 
+        public double Double => (double)Data;
+
         /// <summary>
         /// Create a <see cref="NumericToken"/>.
         /// </summary>

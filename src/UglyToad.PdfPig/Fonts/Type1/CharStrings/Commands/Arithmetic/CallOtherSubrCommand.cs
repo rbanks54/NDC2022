@@ -35,7 +35,7 @@
             var otherSubroutineArguments = new List<decimal>(numberOfArguments);
             for (int j = 0; j < numberOfArguments; j++)
             {
-                otherSubroutineArguments.Add(context.Stack.PopTop());
+                otherSubroutineArguments.Add((decimal)context.Stack.PopTop());
             }
 
             switch (index)
@@ -75,14 +75,14 @@
                     }
 
                     context.PostscriptStack.Clear();
-                    context.PostscriptStack.Push(otherSubroutineArguments[0]);
+                    context.PostscriptStack.Push((double)otherSubroutineArguments[0]);
                     break;
                 default:
                     // Other subrs beyond the first 4 can safely be ignored.
                     context.PostscriptStack.Clear();
                     for (var i = 0; i < otherSubroutineArguments.Count; i++)
                     {
-                        context.PostscriptStack.Push(otherSubroutineArguments[i]);
+                        context.PostscriptStack.Push((double)otherSubroutineArguments[i]);
                     }
                     break;
             }

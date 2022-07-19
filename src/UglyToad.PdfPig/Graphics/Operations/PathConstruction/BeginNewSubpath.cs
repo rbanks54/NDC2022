@@ -13,6 +13,8 @@
         /// The symbol for this operation in a stream.
         /// </summary>
         public const string Symbol = "m";
+        public decimal X { get; }
+        public decimal Y { get; }
 
         /// <inheritdoc />
         public string Operator => Symbol;
@@ -29,23 +31,26 @@
         /// <param name="y">The y coordinate.</param>
         public BeginNewSubpath(decimal x, decimal y)
         {
-            Point = new PdfPoint(x, y);
+            X = x;
+            Y = y;
         }
 
         /// <inheritdoc />
         public void Run(IOperationContext operationContext)
         {
+            var point = new PdfPoint(X, Y);
             operationContext.BeginSubpath();
-            operationContext.CurrentPosition = Point;
-            operationContext.CurrentPath.LineTo(Point.X, Point.Y);
+            var pointTransform = operationContext.CurrentTransformationMatrix.Transform(point);
+            operationContext.CurrentPosition = pointTransform;
+            operationContext.CurrentPath.MoveTo(pointTransform.X, pointTransform.Y);
         }
 
         /// <inheritdoc />
         public void Write(Stream stream)
         {
-            stream.WriteDecimal(Point.X);
+            stream.WriteDecimal(X);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(Point.Y);
+            stream.WriteDecimal(Y);
             stream.WriteWhiteSpace();
             stream.WriteText(Symbol);
             stream.WriteNewLine();
@@ -54,7 +59,7 @@
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{Point.X} {Point.Y} {Symbol}";
+            return $"{X} {Y} {Symbol}";
         }
     }
 }

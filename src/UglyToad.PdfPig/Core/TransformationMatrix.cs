@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Linq;
     using Geometry;
 
     /// <summary>
@@ -13,44 +14,44 @@
         /// <summary>
         /// The default <see cref="TransformationMatrix"/>.
         /// </summary>
-        public static TransformationMatrix Identity = new TransformationMatrix(new decimal[]
+        public static TransformationMatrix Identity = new TransformationMatrix(new double[]
         {
             1,0,0,
             0,1,0,
             0,0,1
         });
 
-        private readonly decimal[] value;
+        private readonly double[] value;
 
         /// <summary>
         /// The scale for the X dimension.
         /// </summary>
-        public decimal A => value[0];
+        public double A => value[0];
         /// <summary>
         /// The value at (0, 1).
         /// </summary>
-        public decimal B => value[1];
+        public double B => value[1];
         /// <summary>
         /// The value at (1, 0).
         /// </summary>
-        public decimal C => value[3];
+        public double C => value[3];
         /// <summary>
         /// The scale for the Y dimension.
         /// </summary>
-        public decimal D => value[4];
+        public double D => value[4];
         /// <summary>
         /// The value at (2, 0) - translation in X.
         /// </summary>
-        public decimal E => value[6];
+        public double E => value[6];
         /// <summary>
         /// The value at (2, 1) - translation in Y.
         /// </summary>
-        public decimal F => value[7];
+        public double F => value[7];
 
         /// <summary>
         /// Get the value at the specific row and column.
         /// </summary>
-        public decimal this[int row, int col]
+        public double this[int row, int col]
         {
             get
             {
@@ -98,7 +99,7 @@
         /// Create a new <see cref="TransformationMatrix"/>.
         /// </summary>
         /// <param name="value">The 9 values of the matrix.</param>
-        public TransformationMatrix(decimal[] value)
+        public TransformationMatrix(double[] value)
         {
             if (value == null)
             {
@@ -133,7 +134,7 @@
         /// <param name="x">The X coordinate.</param>
         /// <returns>The transformed X coordinate.</returns>
         [Pure]
-        internal decimal TransformX(decimal x)
+        internal double TransformX(double x)
         {
             var xt = A * x + C * 0 + E;
 
@@ -173,7 +174,7 @@
         /// <summary>
         /// Create a new <see cref="TransformationMatrix"/> from the 6 values provided in the default PDF order.
         /// </summary>
-        public static TransformationMatrix FromValues(decimal a, decimal b, decimal c, decimal d, decimal e, decimal f)
+        public static TransformationMatrix FromValues(double a, double b, double c, double d, double e, double f)
             => FromArray(new[] {a, b, c, d, e, f});
 
         /// <summary>
@@ -181,7 +182,7 @@
         /// </summary>
         /// <param name="values">Either all 9 values of the matrix, 6 values in the default PDF order or the 4 values of the top left square.</param>
         /// <returns></returns>
-        public static TransformationMatrix FromArray(decimal[] values)
+        public static TransformationMatrix FromArray(double[] values)
         {
             if (values.Length == 9)
             {
@@ -211,6 +212,9 @@
             throw new ArgumentException("The array must either define all 9 elements of the matrix or all 6 key elements. Instead array was: " + values);
         }
 
+        public static TransformationMatrix FromArray(decimal[] values)
+            => FromArray(values.Select(x => (double)x).ToArray());
+
         /// <summary>
         /// Multiplies one transformation matrix by another without modifying either matrix. Order is: (this * matrix).
         /// </summary>
@@ -219,7 +223,7 @@
         [Pure]
         public TransformationMatrix Multiply(TransformationMatrix matrix)
         {
-            var result = new decimal[9];
+            var result = new double[9];
 
             for (var i = 0; i < Rows; i++)
             {
@@ -245,9 +249,9 @@
         /// <param name="scalar">The value to multiply.</param>
         /// <returns>A new matrix which is multiplied by the scalar value.</returns>
         [Pure]
-        public TransformationMatrix Multiply(decimal scalar)
+        public TransformationMatrix Multiply(double scalar)
         {
-            var result = new decimal[9];
+            var result = new double[9];
 
             for (var i = 0; i < Rows; i++)
             {
@@ -269,7 +273,7 @@
         /// Get the X scaling component of the current matrix.
         /// </summary>
         /// <returns></returns>
-        internal decimal GetScalingFactorX()
+        internal double GetScalingFactorX()
         {
             var xScale = A;
 
@@ -290,9 +294,9 @@
              * sqrt(x2) =
              * abs(x)
              */
-            if (!(B == 0m && C == 0m))
+            if (!(B == 0d && C == 0d))
             {
-                xScale = (decimal)Math.Sqrt((double)(A*A + B*B));
+                xScale = Math.Sqrt(A*A + B*B);
             }
 
             return xScale;
@@ -333,7 +337,7 @@
         {
             var hashCode = 1113510858;
             hashCode = hashCode * -1521134295 + base.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<decimal[]>.Default.GetHashCode(value);
+            hashCode = hashCode * -1521134295 + EqualityComparer<double[]>.Default.GetHashCode(value);
             return hashCode;
         }
 
@@ -346,7 +350,7 @@
         /// <summary>
         /// Create a new <see cref="TransformationMatrix"/> with the X and Y translation values set.
         /// </summary>
-        public static TransformationMatrix GetTranslationMatrix(decimal x, decimal y)
+        public static TransformationMatrix GetTranslationMatrix(double x, double y)
         {
             return new TransformationMatrix(new []
             {

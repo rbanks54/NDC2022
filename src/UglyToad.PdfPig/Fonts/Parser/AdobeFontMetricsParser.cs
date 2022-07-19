@@ -356,8 +356,8 @@
                         builder.IsFixedPitch = ReadBool(bytes);
                         break;
                     case FontBbox:
-                        builder.SetBoundingBox(ReadDecimal(bytes), ReadDecimal(bytes),
-                            ReadDecimal(bytes), ReadDecimal(bytes));
+                        builder.SetBoundingBox(ReadDouble(bytes), ReadDouble(bytes),
+                            ReadDouble(bytes), ReadDouble(bytes));
                         break;
                     case UnderlinePosition:
                         builder.UnderlinePosition = ReadDecimal(bytes);
@@ -408,10 +408,10 @@
                         builder.StdVw = ReadDecimal(bytes);
                         break;
                     case CharWidth:
-                        builder.SetCharacterWidth(ReadDecimal(bytes), ReadDecimal(bytes));
+                        builder.SetCharacterWidth(ReadDouble(bytes), ReadDouble(bytes));
                         break;
                     case VVector:
-                        builder.SetVVector(ReadDecimal(bytes), ReadDecimal(bytes));
+                        builder.SetVVector(ReadDouble(bytes), ReadDouble(bytes));
                         break;
                     case IsFixedV:
                         builder.IsFixedV = ReadBool(bytes);
@@ -444,6 +444,13 @@
             var str = ReadString(input);
 
             return decimal.Parse(str, CultureInfo.InvariantCulture);
+        }
+
+        private static double ReadDouble(IInputBytes input)
+        {
+            var str = ReadString(input);
+
+            return double.Parse(str, CultureInfo.InvariantCulture);
         }
 
         private static bool ReadBool(IInputBytes input)
@@ -532,55 +539,55 @@
                         }
                     case CharmetricsWx:
                         {
-                            metric.WidthX = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthX = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW0X:
                         {
-                            metric.WidthXDirection0 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthXDirection0 = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW1X:
                         {
-                            metric.WidthXDirection1 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthXDirection1 = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsWy:
                         {
-                            metric.WidthY = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthY = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW0Y:
                         {
-                            metric.WidthYDirection0 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthYDirection0 = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW1Y:
                         {
-                            metric.WidthYDirection1 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthYDirection1 = double.Parse(parts[1], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW:
                         {
-                            metric.WidthX = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
-                            metric.WidthY = decimal.Parse(parts[2], CultureInfo.InvariantCulture);
+                            metric.WidthX = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthY = double.Parse(parts[2], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW0:
                         {
-                            metric.WidthXDirection0 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
-                            metric.WidthYDirection0 = decimal.Parse(parts[2], CultureInfo.InvariantCulture);
+                            metric.WidthXDirection0 = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthYDirection0 = double.Parse(parts[2], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsW1:
                         {
-                            metric.WidthXDirection1 = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
-                            metric.WidthYDirection1 = decimal.Parse(parts[2], CultureInfo.InvariantCulture);
+                            metric.WidthXDirection1 = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                            metric.WidthYDirection1 = double.Parse(parts[2], CultureInfo.InvariantCulture);
                             break;
                         }
                     case CharmetricsVv:
                         {
-                            metric.VVector = new PdfVector(decimal.Parse(parts[1], CultureInfo.InvariantCulture), decimal.Parse(parts[2], CultureInfo.InvariantCulture));
+                            metric.VVector = new PdfVector(double.Parse(parts[1], CultureInfo.InvariantCulture), double.Parse(parts[2], CultureInfo.InvariantCulture));
                             break;
                         }
                     case CharmetricsN:
@@ -590,10 +597,10 @@
                         }
                     case CharmetricsB:
                         {
-                            metric.BoundingBox = new PdfRectangle(decimal.Parse(parts[1], CultureInfo.InvariantCulture),
-                                decimal.Parse(parts[2], CultureInfo.InvariantCulture),
-                                decimal.Parse(parts[3], CultureInfo.InvariantCulture),
-                                decimal.Parse(parts[4], CultureInfo.InvariantCulture));
+                            metric.BoundingBox = new PdfRectangle(double.Parse(parts[1], CultureInfo.InvariantCulture),
+                                double.Parse(parts[2], CultureInfo.InvariantCulture),
+                                double.Parse(parts[3], CultureInfo.InvariantCulture),
+                                double.Parse(parts[4], CultureInfo.InvariantCulture));
                             break;
                         }
                     case CharmetricsL:

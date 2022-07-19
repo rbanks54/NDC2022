@@ -65,13 +65,13 @@
             stream.WriteWhiteSpace();
             stream.WriteDecimal(VerticalDisplacement);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(BoundingBox.Left);
+            stream.WriteDecimal((decimal)BoundingBox.Left);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(BoundingBox.Bottom);
+            stream.WriteDecimal((decimal)BoundingBox.Bottom);
             stream.WriteWhiteSpace();
-            stream.WriteDecimal(BoundingBox.Right);
+            stream.WriteDecimal((decimal)BoundingBox.Right);
             stream.WriteWhiteSpace();
-            stream.WriteNumberText(BoundingBox.Top, Symbol);
+            stream.WriteNumberText((decimal)BoundingBox.Top, Symbol);
         }
 
         /// <inheritdoc />

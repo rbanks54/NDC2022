@@ -58,16 +58,16 @@
             switch (Value)
             {
                 case 0:
-                    thisMatrix = TransformationMatrix.FromArray(new[]{ 1m, 0, 0, 1 });
+                    thisMatrix = TransformationMatrix.FromArray(new[]{ 1d, 0, 0, 1 });
                     break;
                 case 90:
-                    thisMatrix = TransformationMatrix.FromArray(new[] {0m, -1, 1, 0});
+                    thisMatrix = TransformationMatrix.FromArray(new[] {0d, -1, 1, 0});
                     break;
                 case 180:
-                    thisMatrix = TransformationMatrix.FromArray(new[] {-1m, 0, 0, -1});
+                    thisMatrix = TransformationMatrix.FromArray(new[] {-1d, 0, 0, -1});
                     break;
                 case 270:
-                    thisMatrix = TransformationMatrix.FromArray(new[] {0m, 1, -1, 0});
+                    thisMatrix = TransformationMatrix.FromArray(new[] {0d, 1, -1, 0});
                     break;
                 default:
                     throw new InvalidOperationException($"Invalid value for rotation: {Value}.");
